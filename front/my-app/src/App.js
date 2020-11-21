@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import defaultTheme from './defaultTheme'
 import DashboardOverview from './components/DashboardOverview'
+import LiveFeed from './components/LiveFeed'
 import MyDrawer from './components/MyDrawer';
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -26,6 +27,7 @@ function App() {
         <MyDrawer/>
           <Switch>
             <Route path ='/dashboard' component={DashboardOverview}/>
+            <Route path = '/liveFeed' component={LiveFeed}/>
           </Switch>
         </Router>
         
