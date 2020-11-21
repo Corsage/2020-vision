@@ -23,7 +23,7 @@ def connect_error(err):
 
 class CVClient(object):
     def __init__(self, server_addr, stream_fps):
-        self.server_addr = '3.228.22.13' # test
+        self.server_addr = server_addr
         self.server_port = 8080 # test 
         self._stream_fps = stream_fps
         self._last_update_t = time.time()
@@ -36,7 +36,6 @@ class CVClient(object):
         transports=['websocket'])
 
         time.sleep(1)
-
         return self
 
     def _convert_image_to_jpeg(self, image):
@@ -47,7 +46,7 @@ class CVClient(object):
         frame = base64.b64encode(frame).decode('utf-8')
         return "data:image/jpeg;base64,{}".format(frame)
 
-    def send_data(self, frame, text):
+    def send_data(self, frame):
         cur_t = time.time()
         if cur_t - self._last_update_t > self._wait_t:
             self._last_update_t = cur_t

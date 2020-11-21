@@ -1,8 +1,10 @@
-import { Button, Card, Container, Grid, makeStyles, LinearProgress } from '@material-ui/core'
+import { Button, Card, Container, Grid, makeStyles, LinearProgress, Typography } from '@material-ui/core'
 import React from 'react'
 
-import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://100.27.40.134:8080";
+// socket setup
+const io = require('socket.io-client');
+const ENDPOINT = "http://52.6.197.90:8080";
+const socket = io(ENDPOINT);
 
 const useStyles = makeStyles({
     root: {
@@ -16,18 +18,13 @@ const LiveFeed = () => {
     const classes = useStyles();
 
     const [progress, setProgress] = React.useState(0);
-    const [response, setResponse] = React.useState("");
+    const [response, setResponse] = React.useState('');
 
     // React on effect hook (component mount)
-    React.useEffect(() => {
-        
-        // socket.io setup
-        const socket = socketIOClient(ENDPOINT);
 
-        
-        socket.on("ocv_image", data => {
-          setResponse(data);
-        });
+    // stuff that happens upon initial render
+    // add subsequent re-renders
+    React.useEffect(() => {
 
         // used for progress bar...animation till required
         const timer = setInterval(() => {
@@ -37,10 +34,23 @@ const LiveFeed = () => {
         }, 500);
   
         return () => {
+            // stuff that happens when component unmounts
             clearInterval(timer);
-            socket.disconnect();
         };
     }, []);
+
+    React.useEffect(() => {
+        socket.on("connect", () => {
+            console.log("connected");
+        })
+        socket.on("ocv_image", data => {
+            setResponse(data);
+            console.log("receive");
+        });
+        return () => {
+            socket.disconnect();
+        }
+    }, [response]);
 
     // layout UI using grid and cards
     return (
@@ -48,20 +58,21 @@ const LiveFeed = () => {
 
             <Grid item md={10} style={{ paddingRight: '0.5rem', paddingBottom: '2.0rem'}}>
                     <Card style={{height: '40rem'}}>
-                        <img src = {{response}}/>
+                        <img src = {response}/>
                     </Card>
             </Grid>
 
             <Grid item md={10} style={{ paddingRight: '0.5rem' }}>
                     <Card>
-                        <center><text>Currently: 5 people in store</text></center>
+                        <center><Typography>Currently: 5 people in store</Typography></center>
                     </Card>
+                     
             </Grid>
 
             <Grid item md={10} style={{ paddingRight: '0.5rem', paddingTop:'2.0rem' }}>
                     <div className={classes.root}>
                         <LinearProgress variant="determinate" value={progress} />
-                        <center><text>20% of store capacity</text></center>
+                        <center><Typography>20% of store capacity</Typography></center>
                     </div>
             </Grid>
         </Grid>

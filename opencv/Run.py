@@ -16,7 +16,7 @@ t0 = time.time()
 def run():
 
 	# test socket connection.
-	test = socket.CVClient('3.228.22.13', 30).setup()
+	streamer = socket.CVClient('52.6.197.90', 30).setup()
 
 	# construct the argument parse and parse the arguments
 	ap = argparse.ArgumentParser()
@@ -306,8 +306,11 @@ def run():
 			break
 
 		# increment the total number of frames processed thus far and
-		# then update the FPS counter
+		# then send frame to socket server and lastly update the FPS counter
 		totalFrames += 1
+
+		streamer.send_data(frame)		
+
 		fps.update()
 
 		if config.Timer:
@@ -317,7 +320,9 @@ def run():
 			if num_seconds > 28800:
 				break
 
-	# stop the timer and display FPS information
+	# stop the timer and streamer and display FPS information
+	if streamer is not None:
+		streamer.close()
 	fps.stop()
 	print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
 	print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
