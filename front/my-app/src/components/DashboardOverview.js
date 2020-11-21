@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardHeader, Container, Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-import { Bar, Doughnut } from 'react-chartjs-2';
+import { Bar, Doughnut, Scatter } from 'react-chartjs-2';
 import SmallStat from './SmallStat';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,15 +20,15 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '100%',
         display: 'flex',
         justifyContent: 'center',
-        position:'relative'
+        position: 'relative'
     },
     percentageBox: {
-        position:'relative'
+        position: 'relative'
     },
     percentageText: {
         position: "absolute",
         bottom: "7.5rem",
-        zIndex:'100'
+        zIndex: '100'
     }
 }))
 
@@ -112,6 +112,42 @@ const DashboardOverview = () => {
 
 
     }
+
+    const scatterData = {
+        labels: ['Scatter'],
+        datasets: [
+            {
+                label: 'My First dataset',
+                fill: false,
+                backgroundColor: 'rgba(75,192,192,0.4)',
+                pointBorderColor: 'rgba(75,192,192,1)',
+                pointBackgroundColor: '#fff',
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+                pointHoverBorderColor: 'rgba(220,220,220,1)',
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: [
+                    { x: 65, y: 75 },
+                    { x: 59, y: 49 },
+                    { x: 80, y: 90 },
+                    { x: 81, y: 29 },
+                    { x: 56, y: 36 },
+                    { x: 55, y: 25 },
+                    { x: 40, y: 18 },
+                ]
+            }
+        ]
+    }
+
+    const scatterOptions = {
+        maintainAspectRatio: false,
+        aspectRation: 1,
+        responsive: false,
+
+    }
     return (
         <Grid container direction='column' style={{ paddingLeft: '4rem', paddingRight: '1rem', paddingTop: '2rem' }}>
             <Grid container direction='row' justify='flex-start' style={{ marginBottom: '1rem' }}>
@@ -130,7 +166,7 @@ const DashboardOverview = () => {
                 </Grid>
 
             </Grid>
-            <Grid container direction='row' justify='flex-start' >
+            <Grid container direction='row' justify='flex-start' style={{paddingLeft:'0.5rem'}} >
                 <Grid item md={9} style={{ paddingRight: '0.5rem' }}>
                     <Grid container direction='column'>
                         <Card className={classes.barCard} >
@@ -147,7 +183,7 @@ const DashboardOverview = () => {
                         <Card className={classes.doughnutCard}>
                             <Grid container direction="column">
                                 <Typography variant={'h3'} align={'center'} >CAPACITY</Typography>
-                                <Grid container direction='row' justify='center' style={{marginTop:'1rem'}}>
+                                <Grid container direction='row' justify='center' style={{ marginTop: '1rem' }}>
                                     <Doughnut
                                         style={{ margin: 0 }}
                                         width={200}
@@ -159,14 +195,34 @@ const DashboardOverview = () => {
                                 </Grid>
 
                             </Grid>
-                                <Typography variant={'h3'} className={classes.percentageText}>
-                                    %70
+                            <Typography variant={'h3'} className={classes.percentageText}>
+                                %70
                                 </Typography>
 
                         </Card>
                     </Grid>
                 </Grid>
 
+            </Grid>
+            <Grid container direction='row' justify='flex-start' style={{marginTop: '1rem', paddingLeft:'0.5rem'}}>
+                <Grid item>
+                    <Card style={{ display: 'flex' }}>
+                        <Grid container direction='column'>
+                            <Grid container direction='row'>
+                                <Scatter
+                                    width={300}
+                                    height={300}
+                                    ref={chartReference}
+                                    data={scatterData}
+                                    options={scatterOptions}
+                                />
+                            </Grid>
+
+                        </Grid>
+
+                    </Card>
+
+                </Grid>
             </Grid>
         </Grid>
 
