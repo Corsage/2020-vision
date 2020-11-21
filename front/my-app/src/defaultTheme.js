@@ -31,13 +31,13 @@ export default {
     },
     palette: {
         primary: {
-            main: '#2C65FF'
+            main: '#123c69'
         },
         secondary: {
-            main: '#000000'
+            main: '#ac3b61'
         },
         background: {
-            default: '#e9e9ed',
+            default: '#eee2dc',
         }
     },
     overrides: {
