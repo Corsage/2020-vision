@@ -16,7 +16,7 @@ t0 = time.time()
 def run():
 
 	# test socket connection.
-	test = socket.CVClient('3.228.22.13', 30).setup()
+	test = socket.CVClient('3.238.55.99', 30).setup()
 
 	# construct the argument parse and parse the arguments
 	ap = argparse.ArgumentParser()

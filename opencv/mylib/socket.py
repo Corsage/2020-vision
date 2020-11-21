@@ -23,7 +23,7 @@ def connect_error(err):
 
 class CVClient(object):
     def __init__(self, server_addr, stream_fps):
-        self.server_addr = '3.228.22.13' # test
+        self.server_addr = server_addr
         self.server_port = 8080 # test 
         self._stream_fps = stream_fps
         self._last_update_t = time.time()
