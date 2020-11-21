@@ -30,13 +30,13 @@ const PeopleScatter = () => {
                 pointRadius: 2,
                 pointHitRadius: 10,
                 data: [
-                    { x: 65, y: 75 },
-                    { x: 59, y: 49 },
-                    { x: 80, y: 90 },
-                    { x: 81, y: 29 },
-                    { x: 56, y: 36 },
-                    { x: 55, y: 25 },
-                    { x: 40, y: 18 },
+                    { x:0, y: 75 },
+                    { x:1, y: 49 },
+                    { x:2, y: 90 },
+                    { x:3, y: 29 },
+                    { x:4, y: 36 },
+                    { x:5, y: 25 },
+                    { x:6, y: 18 },
                 ]
             }
         ]
@@ -45,6 +45,16 @@ const PeopleScatter = () => {
     const scatterOptions = {
         maintainAspectRatio: true,
         aspectRatio: 1,
+        scales: {
+            xAxes: [{
+                ticks: {
+                    userCallback: function(label, index, labels) {
+                        const days = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
+                        return days[label%7];
+                    }
+                 }
+            }]
+         },
 
     }
     return (
