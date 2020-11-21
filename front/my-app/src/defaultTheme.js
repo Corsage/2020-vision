@@ -37,7 +37,8 @@ export default {
             main: '#ac3b61'
         },
         background: {
-            default: '#eee2dc',
+            default: '#dcdcdc',
+            paper: '#f6f6f6'
         }
     },
     overrides: {

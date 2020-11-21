@@ -1,13 +1,36 @@
-import { Card, CardContent, Grid, Typography } from '@material-ui/core'
+import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import { Line } from 'react-chartjs-2';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
+const useStyles = makeStyles((theme) => ({
+    rateTextGreen: {
+        fontSize: '1rem',
+        color: 'green',
+        justifyItems: 'center',
+        display: 'flex',
+        alignItems: 'center'
+    },
+    rateTextRed: {
+        fontSize: '1rem',
+        color: 'red',
+        justifyItems: 'center',
+        display: 'flex',
+        alignItems: 'center'
+    },
 
-const SmallStat = () => {
+    arrow: {
+
+    }
+}))
+
+const SmallStat = ({ title, value, dataset, rate, color }) => {
+    const classes = useStyles();
     var chartLabels = [];
     var chartData = []
     const chartReference = React.createRef();
-    for (var x = 1; x < 25; x++) {
+    for (var x = 1; x < 10; x++) {
         const date = new Date(2020, 11, 21, x, 0, 0, 0)
         chartLabels.push(date.getHours())
         chartData.push(Math.floor(Math.random() * 100))
@@ -23,8 +46,8 @@ const SmallStat = () => {
         datasets: [
             {
                 label: 'My First dataset',
-                backgroundColor: 'rgba(255,99,132,0.2)',
-                borderColor: 'rgba(255,99,132,1)',
+                backgroundColor: `rgba(${color},0.2)`,
+                borderColor: `rgba(${color},1)`,
                 data: chartData
             }
         ]
@@ -45,8 +68,11 @@ const SmallStat = () => {
                 radius: 0
             },
             line: {
-                tension: 0.33
+                tension: 0.5,
+                borderWidth: 1,
             }
+
+
         },
         scales: {
             xAxes: [
@@ -71,14 +97,24 @@ const SmallStat = () => {
     };
 
     return (
-        <Card style={{ width: '100%', height: '10rem' }} raised>
-            <Grid container direction='column' alignItems='center' justify='center' style={{height:'100%', position:'relative'}}>
-                <Typography variant={'h4'}>TOTAL PEOPLE</Typography>
-                <Typography variant={'h3'}>40</Typography>
-                <div style={{bottom:0, position:'absolute', width:'100%'}}>
+        <Card style={{ width: '100%', height: '10rem' }} >
+            <Grid container direction='column' alignItems='center' justify='center' style={{ height: '100%', position: 'relative' }}>
+                <Typography variant={'h4'}>{title}</Typography>
+                <Typography variant={'h3'}>{value}</Typography>
+                <Typography className={rate < 0? classes.rateTextRed : classes.rateTextGreen} >
+                    {rate < 0 &&
+                        <ArrowDropDownIcon className={classes.arrow} fontSize={'small'} />
+                    }
+
+                    {rate > 0&&
+                        <ArrowDropUpIcon className={classes.arrow} fontSize={'small'}/>
+                    }
+                    {rate * 100}%
+                </Typography>
+                <div style={{ bottom: 0, position: 'absolute', width: '100%' }}>
                     <Line
                         width={'100%'}
-                        height={50}
+                        height={70}
                         ref={chartReference}
                         data={data}
                         options={chartOptions}

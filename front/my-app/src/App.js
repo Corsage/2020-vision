@@ -22,8 +22,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.app}>
+      <Router>
         <MyDrawer/>
-        <Router>
           <Switch>
             <Route path ='/dashboard' component={DashboardOverview}/>
           </Switch>
