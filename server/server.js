@@ -1,39 +1,27 @@
+/**
+ * server.js
+ * This is the entry-point of the server.
+ */
+
 const express = require('express');
-const bodyParser = require('body-parser'); //parse incoming request as json
-const morgan = require('morgan'); //logging framework for requests
-const app = express();
-const router = require('./router');
+const http = require('http');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 
-app.use(morgan('combined'));
+const socket = require('./socket');
+
+const app = express();
+const server = http.createServer(app);
+
+// Socket setup.
+socket(server);
+
+// JSON API setup.
 app.use(cors());
-app.use(bodyParser.json({ type: '*/*' }));
-router(app);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
-
-const cvNamespace = io.of('/cv');
-const webNamespace = io.of('/web');
-
-cvNamespace.on("connection", (socket) => {
-    console.log("CV client connected");
-    socket.on('ocv_image', (data) => {
-        webNamespace.emit('incoming-cv', data);
-    });
-    socket.on('disconnect', () => {
-        console.log('CV client disconnected');
-    });
-});
-
-webNamespace.on("connection", (socket) => {
-    console.log("Web client connected");
-    socket.on('disconnect', () => {
-        console.log('Web client disconnected');
-    });
-});
-
-const port = process.env.PORT || 6969;
-http.listen(port, () => {
-    console.log('server listening on port '+port);
+// Start the server.
+server.listen(8080, () => {
+    console.log(`Server started on port 8080.`);
 });
