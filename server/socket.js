@@ -22,6 +22,10 @@ function initSocket(socket) {
         .on('call', (data) => {
             
         })
+        .on('ocv_image', (data) => {
+            console.log("Receiving data");
+            socket.broadcast.emit('ocv_image', data);
+        })
         .on('end', (data) => {
             // Call ended by either participant.
             // TODO: Delete call, keep notes (?)
