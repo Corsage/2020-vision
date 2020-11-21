@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
     arrow: {
 
+    },
+
+    titleText: {
+        fontWeight: 700,
     }
 }))
 
@@ -99,7 +103,7 @@ const SmallStat = ({ title, value, dataset, rate, color }) => {
     return (
         <Card style={{ width: '100%', height: '10rem' }} >
             <Grid container direction='column' alignItems='center' justify='center' style={{ height: '100%', position: 'relative' }}>
-                <Typography variant={'h4'}>{title}</Typography>
+                <Typography variant={'h4'} color={'textSecondary'} className={classes.titleText} >{title}</Typography>
                 <Typography variant={'h3'}>{value}</Typography>
                 <Typography className={rate < 0? classes.rateTextRed : classes.rateTextGreen} >
                     {rate < 0 &&

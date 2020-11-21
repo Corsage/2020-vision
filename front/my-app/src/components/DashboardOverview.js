@@ -1,4 +1,4 @@
-import { Button, Card, Container, Grid, makeStyles } from '@material-ui/core'
+import { Box, Button, Card, CardHeader, Container, Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import { Bar, Doughnut } from 'react-chartjs-2';
 import SmallStat from './SmallStat';
@@ -16,9 +16,19 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '100%',
     },
     doughnutCard: {
-        padding: '2rem',
-        width: '100%',
-        maxWidth: '100%'
+        padding: '1rem 2rem 2rem 2rem',
+        maxWidth: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        position:'relative'
+    },
+    percentageBox: {
+        position:'relative'
+    },
+    percentageText: {
+        position: "absolute",
+        bottom: "7.5rem",
+        zIndex:'100'
     }
 }))
 
@@ -99,7 +109,7 @@ const DashboardOverview = () => {
             enabled: false,
             custom: false
         },
-        
+
 
     }
     return (
@@ -135,13 +145,23 @@ const DashboardOverview = () => {
                 <Grid item md={3} style={{ paddingLeft: '0.5rem' }}>
                     <Grid container direction='column'>
                         <Card className={classes.doughnutCard}>
-                            <Doughnut
-                                width={200}
-                                height={200}
-                                ref={chartReference}
-                                data={doughnutData}
-                                options={doughnutOptions}
-                            />
+                            <Grid container direction="column">
+                                <Typography variant={'h3'} align={'center'} >CAPACITY</Typography>
+                                <Grid container direction='row' justify='center' style={{marginTop:'1rem'}}>
+                                    <Doughnut
+                                        style={{ margin: 0 }}
+                                        width={200}
+                                        height={200}
+                                        ref={chartReference}
+                                        data={doughnutData}
+                                        options={doughnutOptions}
+                                    />
+                                </Grid>
+
+                            </Grid>
+                                <Typography variant={'h3'} className={classes.percentageText}>
+                                    %70
+                                </Typography>
 
                         </Card>
                     </Grid>
