@@ -1,17 +1,27 @@
+/**
+ * server.js
+ * This is the entry-point of the server.
+ */
+
 const express = require('express');
 const http = require('http');
-const bodyParser = require('body-parser'); //parse incoming request as json
-const morgan = require('morgan'); //logging framework for requests
-const app = express();
-const router = require('./router');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 
-app.use(morgan('combined'));
-app.use(cors());
-app.use(bodyParser.json({ type: '*/*' }));
-router(app);
+const socket = require('./socket');
 
-const port = process.env.PORT || 8080;
+const app = express();
 const server = http.createServer(app);
-server.listen(port);
-console.log('server listening on port '+port);
+
+// Socket setup.
+socket(server);
+
+// JSON API setup.
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Start the server.
+server.listen(8080, () => {
+    console.log(`Server started on port 8080.`);
+});

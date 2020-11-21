@@ -9,10 +9,14 @@ import numpy as np
 import argparse, imutils
 import time, dlib, cv2, datetime
 from itertools import zip_longest
+import mylib.socket as socket
 
 t0 = time.time()
 
 def run():
+
+	# test socket connection.
+	test = socket.CVClient('3.228.22.13', 30).setup()
 
 	# construct the argument parse and parse the arguments
 	ap = argparse.ArgumentParser()
