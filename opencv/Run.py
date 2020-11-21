@@ -82,6 +82,9 @@ def run():
 	if config.Thread:
 		vs = thread.ThreadingClass(config.url)
 
+	# Setup VideoWriter obj and codec.
+	out = cv2.VideoWriter(args["output"],cv2.VideoWriter_fourcc('M','J','P','G'), 10, (500,373))
+
 	# loop over frames from the video stream
 	while True:
 		# grab the next frame and handle if we are reading from either
@@ -104,13 +107,6 @@ def run():
 		if W is None or H is None:
 			(H, W) = frame.shape[:2]
 			print('WIDTH AND HIGHT IS', (H, W))
-
-		# if we are supposed to be writing a video to disk, initialize
-		# the writer
-		if args["output"] is not None and writer is None:
-			fourcc = cv2.VideoWriter_fourcc(*"DIVX")
-			writer = cv2.VideoWriter(args["output"], fourcc, 30,
-				(W, H), True)
 
 		# initialize the current status along with our list of bounding
 		# box rectangles returned by either (1) our object detector or
@@ -297,6 +293,9 @@ def run():
 		# show the output frame
 		cv2.imshow("Real-Time Monitoring/Analysis Window", frame)
 		key = cv2.waitKey(1) & 0xFF
+
+		if args["output"] is not None:
+			out.write(frame)
 
 		# if the `q` key was pressed, break from the loop
 		if key == ord("q"):

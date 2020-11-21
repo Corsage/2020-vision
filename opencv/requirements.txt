@@ -5,3 +5,4 @@ imutils
 dlib
 opencv-python
 scipy
+socketio
