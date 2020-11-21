@@ -1,25 +1,17 @@
-var express = require('express');
-var app = express(); 
+const express = require('express');
+const http = require('http');
+const bodyParser = require('body-parser'); //parse incoming request as json
+const morgan = require('morgan'); //logging framework for requests
+const app = express();
+const router = require('./router');
+const cors = require('cors');
 
-// body parser for requests 
-const bodyParser = require('body-parser'); 
-var cors = require('cors');
-
-//serve files in static' folder at /public 
-//app.use(express.static(__dirname + '/public'));
-
-// routes
-const adminRoutes = require('./routes/adminRoutes.js');
-
-// parse incoming request bodys
-app.use(bodyParser.json());
+app.use(morgan('combined'));
 app.use(cors());
-app.use(bodyParser.urlencoded({extended: false}));
-//connect url routes
-app.use('/api/admin', adminRoutes);
+app.use(bodyParser.json({ type: '*/*' }));
+router(app);
 
-let listener = app.listen(8080); // start server'
-global.listenerPort = listener.address().port;
-
-/* global listenerPort */
-console.log('Listening on port' + listenerPort);
+const port = process.env.PORT || 8080;
+const server = http.createServer(app);
+server.listen(port);
+console.log('server listening on port '+port);
