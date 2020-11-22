@@ -131,17 +131,17 @@ const DashboardOverview = () => {
         <Grid container direction='column' style={{ paddingLeft: '4rem', paddingRight: '1rem', paddingTop: '2rem' }}>
             <Grid container direction='row' justify='flex-start' style={{ marginBottom: '1rem' }}>
                 <Grid container direction='column' md={3} style={{ padding: '0 0.5rem' }}>
-                    <SmallStat title={'ENTRANCE'} value={`25`} rate={0.03} color={`255,99,132`} />
+                    <SmallStat title={'AVG ENTRANCE PER HOUR'} value={`25`} rate={0.03} color={`255,99,132`} />
                 </Grid>
                 <Grid container direction='column' md={3} style={{ padding: '0 0.5rem' }}>
-                    <SmallStat title={'EXIT'} value={'22'} rate={0.02} color={`144, 110, 141`} />
+                    <SmallStat title={'AVG EXIT PER HOUR'} value={'22'} rate={0.02} color={`144, 110, 141`} />
                 </Grid>
                 <Grid container direction='column' md={3} style={{ padding: '0 0.5rem' }}>
-                    <SmallStat title={'THIS RATE'} value={'100'} rate={+0.12} color={'112, 148, 198'} />
+                    <SmallStat title={'AVG PEOPLE PER WEEK'} value={'100'} rate={+0.12} color={'112, 148, 198'} />
                 </Grid>
 
                 <Grid container direction='column' md={3} style={{ padding: '0 0.5rem' }}>
-                    <SmallStat title={'THAT RATE'} value={'200'} rate={-0.35} color={'147, 155, 149'} />
+                    <SmallStat title={'AVG CAPACITY'} value={'65'} rate={-0.05} color={'147, 155, 149'} />
                 </Grid>
 
             </Grid>

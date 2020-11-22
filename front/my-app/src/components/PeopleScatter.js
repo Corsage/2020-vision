@@ -19,7 +19,6 @@ const PeopleScatter = () => {
     for (var x = 0; x < 250; x++) {
         var day = Math.floor(Math.random() * 7)
         var hour = Math.floor(Math.random() * 86400)
-        console.log(x)
         INpointData.push({x:day, y:hour})
     }
 
@@ -28,7 +27,6 @@ const PeopleScatter = () => {
     for (var x = 0; x < 250; x++) {
         var day = Math.floor(Math.random() * 7)
         var hour = Math.floor(Math.random() * 86400)
-        console.log(x)
         OUTpointData.push({x:day, y:hour})
     }
     const scatterData = {
