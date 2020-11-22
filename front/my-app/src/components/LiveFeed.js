@@ -43,14 +43,17 @@ const LiveFeed = () => {
         socket.on("connect", () => {
             console.log("connected");
         })
+
+        //socket.emit("ocv_image", "test");
+        
         socket.on("ocv_image", data => {
-            setResponse(data);
+            setResponse(data.image);
             console.log("receive");
         });
         return () => {
             socket.disconnect();
         }
-    }, [response]);
+    }, []);
 
     // layout UI using grid and cards
     return (
@@ -58,7 +61,7 @@ const LiveFeed = () => {
 
             <Grid item md={10} style={{ paddingRight: '0.5rem', paddingBottom: '2.0rem'}}>
                     <Card style={{height: '40rem'}}>
-                        <img src = {response}/>
+                        <img src = {response} alt = "waiting for stream..."/>
                     </Card>
             </Grid>
 

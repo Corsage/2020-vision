@@ -19,7 +19,8 @@ export default {
             fontSize: '1.5rem'
         },
         h4: {
-            fontSize: '1rem'
+            fontSize: '1rem',
+            fontWeight: 700
         },
         h5: {
             fontSize: '0.625rem'

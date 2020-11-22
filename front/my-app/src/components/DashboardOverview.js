@@ -1,6 +1,8 @@
 import { Box, Button, Card, CardHeader, Container, Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-import { Bar, Doughnut, Scatter } from 'react-chartjs-2';
+import { Bar, Doughnut, Line, Scatter } from 'react-chartjs-2';
+import CovidLine from './CovidLine';
+import PeopleScatter from './PeopleScatter';
 import SmallStat from './SmallStat';
 
 const useStyles = makeStyles((theme) => ({
@@ -9,18 +11,21 @@ const useStyles = makeStyles((theme) => ({
     },
     barCard: {
         masWidth: "100%",
-        height: '30rem',
+        height: '100%',
         padding: '2rem'
     },
     barChart: {
         maxWidth: '100%',
+    },
+    barChartHeading: {
+        fontWeight: '700'
     },
     doughnutCard: {
         padding: '1rem 2rem 2rem 2rem',
         maxWidth: '100%',
         display: 'flex',
         justifyContent: 'center',
-        position: 'relative'
+        position: 'relative',
     },
     percentageBox: {
         position: 'relative'
@@ -113,41 +118,6 @@ const DashboardOverview = () => {
 
     }
 
-    const scatterData = {
-        labels: ['Scatter'],
-        datasets: [
-            {
-                label: 'My First dataset',
-                fill: false,
-                backgroundColor: 'rgba(75,192,192,0.4)',
-                pointBorderColor: 'rgba(75,192,192,1)',
-                pointBackgroundColor: '#fff',
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-                pointHoverBorderColor: 'rgba(220,220,220,1)',
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [
-                    { x: 65, y: 75 },
-                    { x: 59, y: 49 },
-                    { x: 80, y: 90 },
-                    { x: 81, y: 29 },
-                    { x: 56, y: 36 },
-                    { x: 55, y: 25 },
-                    { x: 40, y: 18 },
-                ]
-            }
-        ]
-    }
-
-    const scatterOptions = {
-        maintainAspectRatio: false,
-        aspectRation: 1,
-        responsive: false,
-
-    }
     return (
         <Grid container direction='column' style={{ paddingLeft: '4rem', paddingRight: '1rem', paddingTop: '2rem' }}>
             <Grid container direction='row' justify='flex-start' style={{ marginBottom: '1rem' }}>
@@ -167,9 +137,11 @@ const DashboardOverview = () => {
 
             </Grid>
             <Grid container direction='row' justify='flex-start' style={{paddingLeft:'0.5rem'}} >
-                <Grid item md={9} style={{ paddingRight: '0.5rem' }}>
-                    <Grid container direction='column'>
+                <Grid item md={9} style={{ paddingRight: '0.5rem'}}>
+                    <Grid container direction='column' style={{height:'100%'}}>
+                        
                         <Card className={classes.barCard} >
+                        <Typography variant={'h4'} align={'left'} color='textSecondary' className={classes.barChartHeading}> PEOPLE IN/OUT</Typography>
                             <Bar ref={chartReference} data={data}
                                 width={'100%'}
                                 options={{ maintainAspectRatio: false }}
@@ -179,10 +151,10 @@ const DashboardOverview = () => {
                 </Grid>
 
                 <Grid item md={3} style={{ paddingLeft: '0.5rem' }}>
-                    <Grid container direction='column'>
+                    <Grid container direction='column' style={{height:'100%'}}>
                         <Card className={classes.doughnutCard}>
                             <Grid container direction="column">
-                                <Typography variant={'h3'} align={'center'} >CAPACITY</Typography>
+                            <Typography variant={'h4'} align={'left'} color='textSecondary' className={classes.barChartHeading}> CAPACITY</Typography>
                                 <Grid container direction='row' justify='center' style={{ marginTop: '1rem' }}>
                                     <Doughnut
                                         style={{ margin: 0 }}
@@ -200,30 +172,14 @@ const DashboardOverview = () => {
                                 </Typography>
 
                         </Card>
+                        <PeopleScatter/>
                     </Grid>
                 </Grid>
 
             </Grid>
             <Grid container direction='row' justify='flex-start' style={{marginTop: '1rem', paddingLeft:'0.5rem'}}>
-                <Grid item>
-                    <Card style={{ display: 'flex' }}>
-                        <Grid container direction='column'>
-                            <Grid container direction='row'>
-                                <Scatter
-                                    width={300}
-                                    height={300}
-                                    ref={chartReference}
-                                    data={scatterData}
-                                    options={scatterOptions}
-                                />
-                            </Grid>
-
-                        </Grid>
-
-                    </Card>
-
-                </Grid>
-            </Grid>
+                <CovidLine color={'147, 155, 149'}/>
+            </Grid> 
         </Grid>
 
     )
