@@ -93,6 +93,7 @@ const SmallStat = ({ title, value, dataset, rate, color, xAxis, yAxis }) => {
                     scaleLabel: false,
                     ticks: {
                         display: false,
+                        min:0
                     }
                 }
             ]
