@@ -14,7 +14,6 @@ import mylib.socket as socket
 t0 = time.time()
 
 def run():
-
 	# socket connection.
 	streamer = socket.CVClient('52.6.197.90', 30).setup()
 
@@ -28,6 +27,7 @@ def run():
 		help="path to optional input video file")
 	ap.add_argument("-o", "--output", type=str,
 		help="path to optional output video file")
+
 	# confidence default 0.4
 	ap.add_argument("-c", "--confidence", type=float, default=0.4,
 		help="minimum probability to filter weak detections")
@@ -56,9 +56,6 @@ def run():
 		print("[INFO] Starting the video..")
 		vs = cv2.VideoCapture(args["input"])
 
-	# initialize the video writer (we'll instantiate later if need be)
-	writer = None
-
 	# initialize the frame dimensions (we'll set them as soon as we read
 	# the first frame from the video)
 	W = None
@@ -85,9 +82,6 @@ def run():
 
 	if config.Thread:
 		vs = thread.ThreadingClass(config.url)
-
-	# Setup VideoWriter obj and codec.
-	out = cv2.VideoWriter(args["output"],cv2.VideoWriter_fourcc('M','J','P','G'), 10, (500,373))
 
 	# Initialize boolean for sending capacity maxed alerts
 	capacity_reached = False
@@ -285,28 +279,9 @@ def run():
 			text = "{}: {}".format(k, v)
 			cv2.putText(frame, text, (265, H - ((i * 20) + 60)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
 
-		# Initiate a simple log to save data at end of the day
-		if config.Log:
-			datetimee = [datetime.datetime.now()]
-			d = [datetimee, empty1, empty, x]
-			export_data = zip_longest(*d, fillvalue = '')
-
-			with open('Log.csv', 'w', newline='') as myfile:
-				wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-				wr.writerow(("End Time", "In", "Out", "Total Inside"))
-				wr.writerows(export_data)
-
-
 		# show the output frame
-		cv2.imshow("Real-Time Monitoring/Analysis Window", frame)
-		key = cv2.waitKey(1) & 0xFF
-
-		if args["output"] is not None:
-			out.write(frame)
-
-		# if the `q` key was pressed, break from the loop
-		if key == ord("q"):
-			break
+		# cv2.imshow("Real-Time Monitoring/Analysis Window", frame)
+		# key = cv2.waitKey(1) & 0xFF
 
 		# increment the total number of frames processed thus far and
 		# then send frame to socket server and lastly update the FPS counter
@@ -340,17 +315,3 @@ def run():
 
 	# close any open windows
 	cv2.destroyAllWindows()
-
-
-##learn more about different schedules here: https://pypi.org/project/schedule/
-if config.Scheduler:
-	##Runs for every 1 second
-	#schedule.every(1).seconds.do(run)
-	##Runs at every day (9:00 am). You can change it.
-	schedule.every().day.at("9:00").do(run)
-
-	while 1:
-		schedule.run_pending()
-
-else:
-	run()
