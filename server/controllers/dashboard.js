@@ -9,22 +9,65 @@ exports.alert = function(req, res) {
 
 // Small Stat Data Functions 
 exports.getEntranceRateData = function(req, res) {
-	let returnData = {currentAverageValue: 20, percentage: 0.09, x_axis: [1,2,3], y_axis: [4,5,6]};
+	let xAxisChartLabels = [];
+	let yAxisEntranceCountData = [];
+
+	for (var x = 1; x < 24; x++) {
+        const date = new Date(2020, 11, 21, x, 0, 0, 0);
+		xAxisChartLabels.push(date.getHours());
+		
+		// data between 15-30 
+		yAxisEntranceCountData.push(Math.floor(Math.random() * 30) + 15);
+	}
+	let returnData = {currentAverageValue: 22, percentage: 0.05, x_axis: xAxisChartLabels, y_axis: yAxisEntranceCountData};
 	res.send(returnData);
 }
 
 exports.getExitRateData = function(req, res) {
-	let returnData = {currentAverageValue: 25, percentage: 0.10, x_axis: [1,2,3], y_axis: [4,5,6]};
+	let xAxisChartLabels = [];
+	let yAxisExitCountData = [];
+
+	for (var x = 1; x < 24; x++) {
+        const date = new Date(2020, 11, 21, x, 0, 0, 0);
+		xAxisChartLabels.push(date.getHours());
+		
+		// data between 15-30 
+		yAxisExitCountData.push(Math.floor(Math.random() * 30) + 15);
+	}
+
+	let returnData = {currentAverageValue: 25, percentage: 0.10, x_axis: xAxisChartLabels, y_axis: yAxisExitCountData};
 	res.send(returnData);
 }
 
 exports.getAverageCustomersRateData = function(req, res) {
-	let returnData = {currentAverageValue: 500, percentage: -0.30, x_axis: [1,2,3], y_axis: [300,400,750]};
+	let xAxisChartLabels = [];
+	let yAxisCustomerCountData = [];
+
+	for (var x = 1; x < 24; x++) {
+        const date = new Date(2020, 11, 21, x, 0, 0, 0);
+		xAxisChartLabels.push(date.getHours());
+		
+		// data between 2000-3000
+		yAxisCustomerCountData.push(Math.floor(Math.random() * 3000) + 2000);
+	}
+
+	let returnData = {currentAverageValue: 500, percentage: -0.20, x_axis: xAxisChartLabels, y_axis: yAxisCustomerCountData};
 	res.send(returnData);
 }
 
 exports.getAverageCapacityRateData = function(req, res) {
-	let returnData = {currentAverageValue: 65, percentage: 0.20, x_axis: [1,2,3], y_axis: [60,70,85]};
+	let xAxisChartLabels = [];
+	let yAxisCustomerCountData = [];
+
+	for (var x = 1; x < 24; x++) {
+        const date = new Date(2020, 11, 21, x, 0, 0, 0);
+		xAxisChartLabels.push(date.getHours());
+		
+		// data between 0-100
+		yAxisCustomerCountData.push(Math.floor(Math.random() * 90) + 50);
+	}
+
+	let returnData = {currentAverageValue: 70, percentage: 0.20, x_axis: xAxisChartLabels, y_axis: yAxisCustomerCountData};
 	res.send(returnData);
 }
 
@@ -45,10 +88,10 @@ exports.getDailyInflowData = function(req, res) {
 	    
 	    chartTimeLabels.push(dateString);
 	}
-	let yAxis1Data = [];
-	let yAxis2Data = [];
+	let yAxis1DataOut = [10, 15, 0, 0, 0, 0, 0, 0, 2, 3, 27, 20, 18, 15, 18, 17, 14, 25, 20, 10, 12, 10, 6, 4];
+	let yAxis2DataIn = [4, 0, 0, 0, 0, 0, 0, 5, 10, 25, 15, 35, 10, 15, 20, 24, 19, 22, 14, 18, 8, 6, 9, 5];
 	
-	let returnData = {x_axis: chartTimeLabels, y_axis1: yAxis1Data, y_axis2: yAxis2Data};
+	let returnData = {x_axis: chartTimeLabels, y_axis_out: yAxis1DataOut, y_axis_in: yAxis2DataIn};
 	res.send(returnData);
 }
 
@@ -60,8 +103,8 @@ exports.getDailyCapacityData = function(req, res) {
 
 // people density scatter plot
 exports.getPeopleDensityData = function(req, res) {
-	let returnData = {currentAverageValue: 70};
-	res.send(returnData);
+	// let returnData = {currentAverageValue: 70};
+	// res.send(returnData);
 }
 
 // covid data trend- line graph 
