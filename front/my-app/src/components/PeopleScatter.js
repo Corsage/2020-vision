@@ -1,8 +1,8 @@
 
 import { Card, Grid, makeStyles, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Scatter } from 'react-chartjs-2'
-
+import {getDensityData} from '../http/httpCalls'
 const useStyles = makeStyles({
     card: {
         marginTop: '1rem',
@@ -14,6 +14,15 @@ const useStyles = makeStyles({
 const PeopleScatter = () => {
     const classes = useStyles()
     const chartReference = React.createRef();
+    const [densityData, setDensityData] = useState(null);
+    useEffect(() => {
+        if(densityData === null){
+            getDensityData().then((data) => {
+                setDensityData(data)
+                console.log(data)
+            })
+        }
+    },[])
     const INpointData = [];
 
     for (var x = 0; x < 250; x++) {
@@ -42,7 +51,7 @@ const PeopleScatter = () => {
                 pointHoverBackgroundColor: 'rgba(112, 148, 198,1)',
                 pointHoverBorderColor: 'rgba(112, 148, 198,1)',
                 pointHoverBorderWidth: 2,
-                pointRadius: 2,
+                pointRadius: 2.5,
                 pointHitRadius: 10,
                 data: INpointData
             },
@@ -56,7 +65,7 @@ const PeopleScatter = () => {
                 pointHoverBackgroundColor: 'rgba(255,99,132,1)',
                 pointHoverBorderColor: 'rgba(255,99,132,1)',
                 pointHoverBorderWidth: 2,
-                pointRadius: 2,
+                pointRadius: 2.5,
                 pointHitRadius: 10,
                 data: OUTpointData
             }
@@ -68,6 +77,10 @@ const PeopleScatter = () => {
         aspectRatio: 1,
         scales: {
             xAxes: [{
+                gridLines: {
+                    display: false,
+                    drawOnChartArea: false,
+                },
                 ticks: {
                     userCallback: function(label, index, labels) {
                         const days = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
@@ -79,6 +92,10 @@ const PeopleScatter = () => {
                 ticks: {
                     userCallback: function(label, index, labels) {
                         return new Date(label * 1000).toISOString().substr(11, 8);
+                    },
+                    gridLines: {
+                        display: false,
+                        drawOnChartArea: false,
                     },
                     stepSize: 3600
                  }

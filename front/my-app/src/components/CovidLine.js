@@ -1,6 +1,7 @@
 import { Card, makeStyles, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
+import { getCovidData } from '../http/httpCalls'
 
 const useStyles = makeStyles({
     covidCard: {
@@ -15,6 +16,22 @@ const useStyles = makeStyles({
 const CovidLine = ({ color }) => {
     const chartReference = React.createRef()
     const classes = useStyles();
+    const [covidData, setCovidData] = useState(null);
+
+    useEffect(() => {
+        if (covidData === null) {
+            getCovidData().then((data) => {
+                console.log('covid', data)
+                // var tempDateLables = []
+                // for(x in data.x_axis) {
+                //     tempDateLables.push(new Date(x).toLocaleDateString('en-US'))
+                // }
+                // data.x_axis = tempDateLables
+                setCovidData(data)
+            })
+        }
+    }, [])
+
     var chartLabels = [];
     var chartData = []
     for (var x = 1; x < 7; x++) {
@@ -28,14 +45,16 @@ const CovidLine = ({ color }) => {
     //     datasets: {data: chartData }
     // }
 
+
+
     const data = {
-        labels: chartLabels,
+        labels: covidData ? covidData.x_axis : chartLabels,
         datasets: [
             {
-                label: 'My First dataset',
+                label: 'New Confirmed Cases',
                 backgroundColor: `rgba(${color},0.2)`,
                 borderColor: `rgba(${color},1)`,
-                data: chartData
+                data: covidData ? covidData.y_axis : chartData
             }
         ]
     };
@@ -50,9 +69,10 @@ const CovidLine = ({ color }) => {
                 }
             }]
         },
-        legend:{
+        legend: {
             display: false
-        }
+        },
+        
     }
 
     return (
