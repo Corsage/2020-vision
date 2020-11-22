@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const SmallStat = ({ title, value, dataset, rate, color }) => {
+const SmallStat = ({ title, value, dataset, rate, color, xAxis, yAxis }) => {
     const classes = useStyles();
     var chartLabels = [];
     var chartData = []
@@ -46,13 +46,13 @@ const SmallStat = ({ title, value, dataset, rate, color }) => {
     // }
 
     const data = {
-        labels: chartLabels,
+        labels: xAxis? xAxis : chartLabels,
         datasets: [
             {
                 label: 'My First dataset',
                 backgroundColor: `rgba(${color},0.2)`,
                 borderColor: `rgba(${color},1)`,
-                data: chartData
+                data: yAxis? yAxis: chartData
             }
         ]
     };
