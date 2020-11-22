@@ -18,7 +18,8 @@ const LiveFeed = () => {
     const classes = useStyles();
 
     const [progress, setProgress] = React.useState(0);
-    const [response, setResponse] = React.useState('');
+    const [responseImageStream, setImageStream] = React.useState('');
+    const [responseStoreOccupancy, setStoreOccupancy] = React.useState(0);
 
     // React on effect hook (component mount)
 
@@ -29,7 +30,9 @@ const LiveFeed = () => {
         // used for progress bar...animation till required
         const timer = setInterval(() => {
         setProgress((oldProgress) => {
-            return Math.min(20, 100);
+            let threshold = 20;
+            let percentage = (responseStoreOccupancy/threshold) * 100;
+            return Math.min(percentage, 100);
         });
         }, 500);
   
@@ -47,8 +50,10 @@ const LiveFeed = () => {
         //socket.emit("ocv_image", "test");
         
         socket.on("ocv_image", data => {
-            setResponse(data.image);
-            console.log("receive");
+            setImageStream(data.image);
+            setStoreOccupancy(data.occupancy);
+            setProgress();
+            console.log("receive-text: " + data.occupancy);
         });
         return () => {
             socket.disconnect();
@@ -61,13 +66,13 @@ const LiveFeed = () => {
 
             <Grid item md={10} style={{ paddingRight: '0.5rem', paddingBottom: '2.0rem'}}>
                     <Card style={{height: '40rem'}}>
-                        <img src = {response} alt = "waiting for stream..."/>
+                        <img src = {responseImageStream} alt = "waiting for stream..."/>
                     </Card>
             </Grid>
 
             <Grid item md={10} style={{ paddingRight: '0.5rem' }}>
                     <Card>
-                        <center><Typography>Currently: 5 people in store</Typography></center>
+                        <center><Typography> {responseStoreOccupancy} people </Typography></center>
                     </Card>
                      
             </Grid>
