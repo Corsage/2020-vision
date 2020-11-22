@@ -154,7 +154,7 @@ const LiveFeed = () => {
             alignItems: "center",
             width: "100%",
             height: "100vh",
-            maxWidth: "99999px"
+            maxWidth: "99999px",
             flexDirection: 'column',
           }}
         >
