@@ -76,13 +76,13 @@ const DashboardOverview = () => {
                 console.log(data)
             })
         }
-        if(dailyFlowData === null) {
+        if (dailyFlowData === null) {
             getDailyFlowData().then((data) => {
                 setDailyFlowData(data)
                 console.log('flow', data)
             })
         }
-        if(dailyCapacityData === null) {
+        if (dailyCapacityData === null) {
             getDailyCapacity().then((data) => {
                 setDailyCapacityData(data)
                 console.log('capacity', data)
@@ -114,7 +114,7 @@ const DashboardOverview = () => {
     }
 
     const data = {
-        labels: dailyFlowData? dailyFlowData.x_axis : chartLabels,
+        labels: dailyFlowData ? dailyFlowData.x_axis : chartLabels,
         datasets: [
             {
                 label: 'OUT',
@@ -123,7 +123,7 @@ const DashboardOverview = () => {
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                 hoverBorderColor: 'rgba(255,99,132,1)',
-                data: dailyFlowData? dailyFlowData.y_axis_out : chartData
+                data: dailyFlowData ? dailyFlowData.y_axis_out : chartData
             },
             {
                 label: 'IN',
@@ -132,7 +132,7 @@ const DashboardOverview = () => {
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(112, 148, 198,0.4)',
                 hoverBorderColor: 'rgba(112, 148, 198,1)',
-                data: dailyFlowData? dailyFlowData.y_axis_in : chartData2
+                data: dailyFlowData ? dailyFlowData.y_axis_in : chartData2
             }
         ]
     };
@@ -143,7 +143,7 @@ const DashboardOverview = () => {
             'Empty',
         ],
         datasets: [{
-            data: [capacityRateData ? capacityRateData.currentAverageValue : 30 , capacityRateData ? 100-capacityRateData.currentAverageValue : 70],
+            data: [dailyCapacityData ? dailyCapacityData.currentAverageValue : 30, dailyCapacityData ? 100 - dailyCapacityData.currentAverageValue : 70],
             backgroundColor: [
                 'rgba(112, 148, 198, 0.2)',
                 'rgba(0,0,0,0)',
@@ -234,7 +234,10 @@ const DashboardOverview = () => {
 
                             </Grid>
                             <Typography variant={'h3'} className={classes.percentageText}>
-                                %70
+                                {dailyCapacityData !== null &&
+                                    "%" + dailyCapacityData.currentAverageValue
+                                }
+                               
                                 </Typography>
 
                         </Card>
