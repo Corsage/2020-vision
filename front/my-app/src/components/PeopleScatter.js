@@ -13,7 +13,24 @@ const useStyles = makeStyles({
 
 const PeopleScatter = () => {
     const classes = useStyles()
-    const chartReference = React.createRef()
+    const chartReference = React.createRef();
+    const INpointData = [];
+
+    for (var x = 0; x < 250; x++) {
+        var day = Math.floor(Math.random() * 7)
+        var hour = Math.floor(Math.random() * 86400)
+        console.log(x)
+        INpointData.push({x:day, y:hour})
+    }
+
+    const OUTpointData = [];
+
+    for (var x = 0; x < 250; x++) {
+        var day = Math.floor(Math.random() * 7)
+        var hour = Math.floor(Math.random() * 86400)
+        console.log(x)
+        OUTpointData.push({x:day, y:hour})
+    }
     const scatterData = {
         labels: ['Scatter'],
         datasets: [
@@ -22,22 +39,28 @@ const PeopleScatter = () => {
                 backgroundColor: 'rgba(112,148,198,0.4)',
                 pointBorderColor: 'rgba(112,148,198,1)',
                 pointBackgroundColor: '#fff',
-                pointBorderWidth: 1,
+                pointBorderWidth: 2,
                 pointHoverRadius: 5,
                 pointHoverBackgroundColor: 'rgba(112, 148, 198,1)',
                 pointHoverBorderColor: 'rgba(112, 148, 198,1)',
                 pointHoverBorderWidth: 2,
                 pointRadius: 2,
                 pointHitRadius: 10,
-                data: [
-                    { x:0, y: 75 },
-                    { x:1, y: 49 },
-                    { x:2, y: 90 },
-                    { x:3, y: 29 },
-                    { x:4, y: 36 },
-                    { x:5, y: 25 },
-                    { x:6, y: 18 },
-                ]
+                data: INpointData
+            },
+            {
+                label: 'OUT',
+                backgroundColor: 'rgba(255,99,132,0.4)',
+                pointBorderColor: 'rgba(255,99,132,1)',
+                pointBackgroundColor: '#fff',
+                pointBorderWidth: 2,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: 'rgba(255,99,132,1)',
+                pointHoverBorderColor: 'rgba(255,99,132,1)',
+                pointHoverBorderWidth: 2,
+                pointRadius: 2,
+                pointHitRadius: 10,
+                data: OUTpointData
             }
         ]
     }
@@ -52,6 +75,14 @@ const PeopleScatter = () => {
                         const days = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
                         return days[label%7];
                     }
+                 }
+            }],
+            yAxes: [{
+                ticks: {
+                    userCallback: function(label, index, labels) {
+                        return new Date(label * 1000).toISOString().substr(11, 8);
+                    },
+                    stepSize: 3600
                  }
             }]
          },

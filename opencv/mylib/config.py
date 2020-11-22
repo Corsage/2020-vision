@@ -10,7 +10,7 @@ url = 'http://200.52.68.182:8081/cgi-bin/mjpeg?stream=1&resolution=2048x2048&qua
 # ON/OFF for mail feature. Enter True to turn on the email alert feature.
 ALERT = False
 # Set max. people inside limit. Optimise number below: 10, 50, 100, etc.
-Threshold = 10
+Threshold = 9
 # Threading ON/OFF
 Thread = False
 # Simple log to log the counting data

@@ -15,7 +15,7 @@ t0 = time.time()
 
 def run():
 
-	# test socket connection.
+	# socket connection.
 	streamer = socket.CVClient('52.6.197.90', 30).setup()
 
 	# construct the argument parse and parse the arguments
@@ -88,6 +88,9 @@ def run():
 
 	# Setup VideoWriter obj and codec.
 	out = cv2.VideoWriter(args["output"],cv2.VideoWriter_fourcc('M','J','P','G'), 10, (500,373))
+
+	# Initialize boolean for sending capacity maxed alerts
+	capacity_reached = False
 
 	# loop over frames from the video stream
 	while True:
@@ -244,11 +247,11 @@ def run():
 						if sum(x) >= config.Threshold:
 							cv2.putText(frame, "-ALERT: People limit exceeded-", (10, frame.shape[0] - 80),
 								cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 0, 255), 2)
-							if config.ALERT:
-								print("[INFO] Sending email alert..")
-								Mailer().send(config.MAIL)
-								print("[INFO] Alert sent")
-
+							print("[INFO] Alert set for max capacity..")
+							capacity_reached = True
+						else:
+							print("[INFO] Text set for within capacity..")
+							capacity_reached = False
 						to.counted = True
 
 
@@ -309,8 +312,7 @@ def run():
 		# then send frame to socket server and lastly update the FPS counter
 		totalFrames += 1
 
-		streamer.send_data(frame)		
-
+		streamer.send_data(frame, sum(x))
 		fps.update()
 
 		if config.Timer:
