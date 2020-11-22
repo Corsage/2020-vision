@@ -8,6 +8,10 @@ import {
   Typography,
   CircularProgress,
 } from "@material-ui/core";
+
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import LockIcon from '@material-ui/icons/Lock';
+
 import Lock from "../images/lock.png";
 import Unlock from "../images/unlock.png";
 import React from "react";
@@ -69,7 +73,7 @@ const LiveFeed = () => {
   // layout UI using grid and cards
   return (
     <div>
-      {responseImageStream ? (
+      {true ? (
         <Container
           style={{
             display: "flex",
@@ -91,10 +95,33 @@ const LiveFeed = () => {
                   alt="waiting for stream..."
                 />
 
-                <LinearProgress variant="determinate" value={50} />
+                <LinearProgress
+                  variant="determinate"
+                  style={{ background: "#5923b8", marginTop: "1.5em" }}
+                  value={progress}
+                />
+                <Typography align="center" variant="h4">
+                  {progress}% capacity filled.
+                </Typography>
               </Grid>
               <Grid item xs={4} style={{ padding: "2em" }}>
                 <Card style={{ width: "75%", padding: "2em" }}>
+                  <Typography align="center" variant="h3">
+                    Door status:
+                  </Typography>
+                  <center>
+                    {responseStoreOccupancy > threshold ? (
+                      <LockIcon style={{ height: "40%", marginTop: "1rem" }} />
+                    ) : (
+                      <LockOpenIcon
+                        style={{ height: "40%", marginTop: "1rem" }}
+                      />
+                    )}
+                  </center>
+                </Card>
+                <Card
+                  style={{ width: "75%", padding: "2em", marginTop: "2em" }}
+                >
                   <Typography align="center" variant="h3">
                     Building is{" "}
                     {responseStoreOccupancy > threshold ? (
@@ -127,14 +154,17 @@ const LiveFeed = () => {
                     People within store:
                   </Typography>
 
-                  <Typography align="center" variant="h2" style={{fontWeight: 'bold'}}>
+                  <Typography
+                    align="center"
+                    variant="h2"
+                    style={{ fontWeight: "bold" }}
+                  >
                     {responseStoreOccupancy}
                   </Typography>
                 </Card>
               </Grid>
             </Grid>
           </Container>
-
         </Container>
       ) : (
         <Container
