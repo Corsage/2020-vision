@@ -91,7 +91,7 @@ const Login = () => {
             <img style={{ width: "60%" }} src={dab} />
 
             <h2 style={{ color: "#ffffff", marginBottom: 0 }}>
-              Protect Small Businesses
+              Protect Local Businesses
             </h2>
             <p
               style={{
