@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 
 import LockOpenIcon from "@material-ui/icons/LockOpen";
-import LockIcon from '@material-ui/icons/Lock';
+import LockIcon from "@material-ui/icons/Lock";
 
 import Lock from "../images/lock.png";
 import Unlock from "../images/unlock.png";
@@ -73,7 +73,7 @@ const LiveFeed = () => {
   // layout UI using grid and cards
   return (
     <div>
-      {true ? (
+      {responseImageStream ? (
         <Container
           style={{
             display: "flex",
@@ -83,12 +83,23 @@ const LiveFeed = () => {
             width: "100%",
             height: "100vh",
             maxWidth: "99999px",
+            paddingLeft: '156px',
             flexDirection: "column",
           }}
         >
           <Container style={{ width: "75%", maxWidth: "910px" }}>
             <Grid container>
-              <Grid item xs={8} style={{ padding: "2em" }}>
+              <Grid
+                item
+                xs={8}
+                style={{
+                  display: "flex",
+                  padding: "2em",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
                 <img
                   style={{ width: "100%" }}
                   src={responseImageStream}
@@ -97,10 +108,13 @@ const LiveFeed = () => {
 
                 <LinearProgress
                   variant="determinate"
-                  style={{ background: "#5923b8", marginTop: "1.5em" }}
+                  style={{
+                    marginTop: "1.5em",
+                    width: "100%",
+                  }}
                   value={progress}
                 />
-                <Typography align="center" variant="h4">
+                <Typography align="center" variant="h4" style={{ margin: 0 }}>
                   {progress}% capacity filled.
                 </Typography>
               </Grid>
@@ -111,7 +125,21 @@ const LiveFeed = () => {
                   </Typography>
                   <center>
                     {responseStoreOccupancy > threshold ? (
-                      <LockIcon style={{ height: "40%", marginTop: "1rem" }} />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <LockIcon
+                          style={{ height: "40%", marginTop: "1rem" }}
+                        />
+                        <Typography align="center" variant="p">
+                          Threshold: {threshold} people
+                        </Typography>
+                      </div>
                     ) : (
                       <LockOpenIcon
                         style={{ height: "40%", marginTop: "1rem" }}
@@ -179,6 +207,7 @@ const LiveFeed = () => {
             width: "100%",
             height: "100vh",
             maxWidth: "99999px",
+            paddingLeft: '156px',
             flexDirection: "column",
           }}
         >
