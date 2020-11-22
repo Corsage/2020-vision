@@ -1,5 +1,7 @@
-import { Button, Card, Container, Grid, makeStyles, LinearProgress, Typography } from '@material-ui/core'
-import React from 'react'
+import { Button, Card, Container, Grid, makeStyles, LinearProgress, Typography, CircularProgress } from '@material-ui/core';
+import Lock from '../images/lock.png';
+import Unlock from '../images/unlock.png';
+import React from 'react';
 
 // socket setup
 const io = require('socket.io-client');
@@ -8,8 +10,18 @@ const socket = io(ENDPOINT);
 
 const useStyles = makeStyles({
     root: {
-      width: '100%',
+        width: '100%',
     },
+    stream: {
+        width: '33rem',
+        position: 'relative',
+        marginTop: '1rem'
+    },
+    lock: {
+        width: '7rem',
+        height: '7rem',
+        marginLeft: '42rem'
+    }
   });
   
 const LiveFeed = () => {
@@ -20,27 +32,15 @@ const LiveFeed = () => {
     const [progress, setProgress] = React.useState(0);
     const [responseImageStream, setImageStream] = React.useState('');
     const [responseStoreOccupancy, setStoreOccupancy] = React.useState(0);
-
+    
+    const threshold = 8;
     // React on effect hook (component mount)
 
     // stuff that happens upon initial render
     // add subsequent re-renders
     React.useEffect(() => {
-
-        // used for progress bar...animation till required
-        const timer = setInterval(() => {
-        setProgress((oldProgress) => {
-            let threshold = 20;
-            let percentage = (responseStoreOccupancy/threshold) * 100;
-            return Math.min(percentage, 100);
-        });
-        }, 500);
-  
-        return () => {
-            // stuff that happens when component unmounts
-            clearInterval(timer);
-        };
-    }, []);
+        setProgress(Math.min((responseStoreOccupancy/threshold) * 100, 100));
+    }, [responseStoreOccupancy]);
 
     React.useEffect(() => {
         socket.on("connect", () => {
@@ -52,8 +52,6 @@ const LiveFeed = () => {
         socket.on("ocv_image", data => {
             setImageStream(data.image);
             setStoreOccupancy(data.occupancy);
-            setProgress();
-            console.log("receive-text: " + data.occupancy);
         });
         return () => {
             socket.disconnect();
@@ -63,26 +61,60 @@ const LiveFeed = () => {
     // layout UI using grid and cards
     return (
         <Grid container direction='column' style={{ paddingLeft: '10rem', paddingRight: '1rem', paddingTop: '3rem' }}>
+            { responseImageStream ?
+                <div>
+                    <Grid item md={10} style={{ paddingRight: '0.5rem', paddingBottom: '2.0rem'}}>
+                        <Card style={{height: '27rem', width: 'fit-content', padding: '0.5rem', marginLeft: '30%'}}>
+                            <img className={classes.stream} src = {responseImageStream} alt = "waiting for stream..."/>
+                        </Card>                      
+                    </Grid>
 
-            <Grid item md={10} style={{ paddingRight: '0.5rem', paddingBottom: '2.0rem'}}>
-                    <Card style={{height: '40rem'}}>
-                        <img src = {responseImageStream} alt = "waiting for stream..."/>
-                    </Card>
-            </Grid>
-
-            <Grid item md={10} style={{ paddingRight: '0.5rem' }}>
-                    <Card>
-                        <center><Typography> {responseStoreOccupancy} people </Typography></center>
-                    </Card>
-                     
-            </Grid>
-
-            <Grid item md={10} style={{ paddingRight: '0.5rem', paddingTop:'2.0rem' }}>
-                    <div className={classes.root}>
-                        <LinearProgress variant="determinate" value={progress} />
-                        <center><Typography>20% of store capacity</Typography></center>
-                    </div>
-            </Grid>
+                    <Grid item md={10} style={{ paddingRight: '0.5rem', paddingTop:'2.0rem' }}>
+                            <div className={classes.root}>
+                                <LinearProgress variant="determinate" value={progress} />
+                                <center><Typography>{progress}% of store capacity</Typography></center>
+                            </div>
+                    </Grid>
+                    <br />
+                    <br />
+                    <Grid item md={10} style={{ paddingRight: '0.5rem' }}>
+                            {responseStoreOccupancy > threshold ?
+                                <div>
+                                    <Card style={{backgroundColor: 'darkred', color: 'white'}}>
+                                        <center>
+                                            <Typography style={{fontWeight: "bold"}}>
+                                            {responseStoreOccupancy} people <br />
+                                            Building is over capacity. 
+                                            </Typography>
+                                        </center>
+                                    </Card>
+                                    <br />
+                                    <br />
+                                    <img className={classes.lock} src={Lock} />
+                                </div> 
+                            :
+                                <div>
+                                    <Card>
+                                        <center>
+                                            <Typography>
+                                            {responseStoreOccupancy} people <br />
+                                            Building is within capacity.
+                                            </Typography>
+                                        </center>
+                                    </Card>
+                                    <br />
+                                    <br />
+                                    <img className={classes.lock} src={Unlock} />
+                                </div>
+                            }
+                            
+                    </Grid>
+                </div>
+                :
+                <div style={{paddingBottom: '15rem', paddingTop: '15rem', paddingLeft: '1rem' }}>
+                    <CircularProgress style={{ width: '5rem', left: '40rem', position: 'relative'}}/>
+                </div>
+            }  
         </Grid>
     )
 }
