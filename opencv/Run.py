@@ -2,8 +2,7 @@ from mylib.centroidtracker import CentroidTracker
 from mylib.trackableobject import TrackableObject
 from imutils.video import VideoStream
 from imutils.video import FPS
-from mylib.mailer import Mailer
-from mylib import config, thread
+from mylib import config
 import time, schedule, csv
 import numpy as np
 import argparse, imutils
@@ -79,9 +78,6 @@ def run():
 
 	# start the frames per second throughput estimator
 	fps = FPS().start()
-
-	if config.Thread:
-		vs = thread.ThreadingClass(config.url)
 
 	# Initialize boolean for sending capacity maxed alerts
 	capacity_reached = False
@@ -290,13 +286,6 @@ def run():
 		streamer.send_data(frame, sum(x))
 		fps.update()
 
-		if config.Timer:
-			# Automatic timer to stop the live stream. Set to 8 hours (28800s).
-			t1 = time.time()
-			num_seconds=(t1-t0)
-			if num_seconds > 28800:
-				break
-
 	# stop the timer and streamer and display FPS information
 	if streamer is not None:
 		streamer.close()
@@ -315,3 +304,5 @@ def run():
 
 	# close any open windows
 	cv2.destroyAllWindows()
+
+run()
