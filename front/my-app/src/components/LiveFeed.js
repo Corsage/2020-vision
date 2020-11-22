@@ -207,6 +207,7 @@ const LiveFeed = () => {
             width: "100%",
             height: "100vh",
             maxWidth: "99999px",
+            paddingLeft: '156px',
             flexDirection: "column",
           }}
         >
