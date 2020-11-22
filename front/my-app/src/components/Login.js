@@ -27,6 +27,7 @@ const Login = () => {
         background: "#eae8f3",
         justifyContent: "center",
         alignItems: "center",
+        margin: 0,
         width: "100%",
         height: "100vh",
       }}
