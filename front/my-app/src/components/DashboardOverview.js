@@ -44,8 +44,17 @@ const DashboardOverview = () => {
     var chartData2 = [];
     const chartReference = React.createRef();
     for (var x = 1; x < 25; x++) {
-        const date = new Date(2020, 11, 21, x, 0, 0, 0)
-        chartLabels.push(date.getHours())
+        const date = new Date(2020, 11, 21, x, 0, 0, 0);
+        const dateStringTemp = date.getHours();
+        let dateString = '';
+        if(dateStringTemp %12 === 0) {
+            dateString += 12
+        } else dateString += dateStringTemp % 12
+
+        if(dateStringTemp < 12) dateString += ' AM'
+        else dateString += ' PM'
+        
+        chartLabels.push(dateString)
         chartData.push(Math.floor(Math.random() * 100))
     }
     console.log(chartLabels)
