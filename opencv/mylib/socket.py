@@ -46,7 +46,7 @@ class CVClient(object):
         frame = base64.b64encode(frame).decode('utf-8')
         return "data:image/jpeg;base64,{}".format(frame)
 
-    def send_data(self, frame):
+    def send_data(self, frame, occupancy):
         cur_t = time.time()
         if cur_t - self._last_update_t > self._wait_t:
             self._last_update_t = cur_t
@@ -55,6 +55,7 @@ class CVClient(object):
             sio.emit('ocv_image',
             {
                 'image': self._convert_image_to_jpeg(frame),
+                'occupancy': occupancy
             })
 
     def check_exit(self):
