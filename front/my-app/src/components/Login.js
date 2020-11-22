@@ -30,9 +30,10 @@ const Login = () => {
         margin: 0,
         width: "100%",
         height: "100vh",
+        maxWidth: "99999px",
       }}
     >
-      <Card style={{ width: "75%" }}>
+      <Card style={{ width: "75%", maxWidth: "910px" }}>
         <Grid container>
           <Grid item xs={6} style={{ background: "#ffffff", padding: "2rem" }}>
             <h1 style={{ color: "#464e56" }}>Log in.</h1>
@@ -50,6 +51,7 @@ const Login = () => {
                   style={{ marginTop: "1rem", width: "100%" }}
                   id="password"
                   label="Password"
+                  type="password"
                   variant="outlined"
                 />
                 <FormControlLabel

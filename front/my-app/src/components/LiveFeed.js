@@ -68,80 +68,74 @@ const LiveFeed = () => {
 
   // layout UI using grid and cards
   return (
-    <Grid
-      container
-      direction="column"
-      style={{ paddingLeft: "10rem", paddingRight: "1rem", paddingTop: "3rem", background: "#eae8f3"}}
-    >
+    <div>
       {responseImageStream ? (
-        <div>
-          <Grid
-            item
-            md={10}
-            style={{ paddingRight: "0.5rem", paddingBottom: "2.0rem" }}
-          >
-            <Card
-              style={{
-                height: "27rem",
-                width: "fit-content",
-                padding: "0.5rem",
-                marginLeft: "30%",
-              }}
-            >
-              <img
-                className={classes.stream}
-                src={responseImageStream}
-                alt="waiting for stream..."
-              />
-            </Card>
-          </Grid>
+        <Container
+          style={{
+            display: "flex",
+            background: "#eae8f3",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100vh",
+            maxWidth: "99999px",
+            flexDirection: "column",
+          }}
+        >
+          <Container style={{ width: "75%", maxWidth: "910px" }}>
+            <Grid container>
+              <Grid item xs={8} style={{ padding: "2em" }}>
+                <img
+                  style={{ width: "100%" }}
+                  src={responseImageStream}
+                  alt="waiting for stream..."
+                />
 
-          <Grid
-            item
-            md={10}
-            style={{ paddingRight: "0.5rem", paddingTop: "2.0rem" }}
-          >
-            <div className={classes.root}>
-              <LinearProgress variant="determinate" value={progress} />
-              <center>
-                <Typography>{progress}% of store capacity</Typography>
-              </center>
-            </div>
-          </Grid>
-          <br />
-          <br />
-          <Grid item md={10} style={{ paddingRight: "0.5rem" }}>
-            {responseStoreOccupancy > threshold ? (
-              <div>
-                <Card style={{ backgroundColor: "darkred", color: "white" }}>
-                  <center>
-                    <Typography style={{ fontWeight: "bold" }}>
-                      {responseStoreOccupancy} people <br />
-                      Building is over capacity.
-                    </Typography>
-                  </center>
+                <LinearProgress variant="determinate" value={50} />
+              </Grid>
+              <Grid item xs={4} style={{ padding: "2em" }}>
+                <Card style={{ width: "75%", padding: "2em" }}>
+                  <Typography align="center" variant="h3">
+                    Building is{" "}
+                    {responseStoreOccupancy > threshold ? (
+                      <span
+                        style={{
+                          color: "rgba(255,99,132,1)",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        over
+                      </span>
+                    ) : (
+                      <span
+                        style={{
+                          color: "rgba(112, 148, 198, 1)",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        under
+                      </span>
+                    )}{" "}
+                    capacity.
+                  </Typography>
                 </Card>
-                <br />
-                <br />
-                <img className={classes.lock} src={Lock} />
-              </div>
-            ) : (
-              <div>
-                <Card>
-                  <center>
-                    <Typography>
-                      {responseStoreOccupancy} people <br />
-                      Building is within capacity.
-                    </Typography>
-                  </center>
+
+                <Card
+                  style={{ width: "75%", padding: "2em", marginTop: "2em" }}
+                >
+                  <Typography align="center" variant="h3">
+                    People within store:
+                  </Typography>
+
+                  <Typography align="center" variant="h2" style={{fontWeight: 'bold'}}>
+                    {responseStoreOccupancy}
+                  </Typography>
                 </Card>
-                <br />
-                <br />
-                <img className={classes.lock} src={Unlock} />
-              </div>
-            )}
-          </Grid>
-        </div>
+              </Grid>
+            </Grid>
+          </Container>
+
+        </Container>
       ) : (
         <Container
           style={{
@@ -154,14 +148,17 @@ const LiveFeed = () => {
             alignItems: "center",
             width: "100%",
             height: "100vh",
-            flexDirection: 'column',
+            maxWidth: "99999px",
+            flexDirection: "column",
           }}
         >
-          <CircularProgress style={{ width: "5rem", height: 'auto', color: "#5923b8" }} />
+          <CircularProgress
+            style={{ width: "5rem", height: "auto", color: "#5923b8" }}
+          />
           <h2 style={{ color: "#464e56" }}>Waiting on livestream...</h2>
         </Container>
       )}
-    </Grid>
+    </div>
   );
 };
 
