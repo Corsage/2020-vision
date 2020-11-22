@@ -50,6 +50,7 @@ const Login = () => {
                   style={{ marginTop: "1rem", width: "100%" }}
                   id="password"
                   label="Password"
+                  type="password"
                   variant="outlined"
                 />
                 <FormControlLabel
